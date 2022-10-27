@@ -1,0 +1,132 @@
+* {
+  margin: 0%;
+  padding: 0%;
+  box-sizing: border-box;
+}
+
+.mainbody {
+
+  padding: 15px 0px;
+}
+
+div.addpost {
+  width: 600px;
+  margin: 20px auto;
+  border-radius: 20px;
+  border: 1px solid black;
+}
+
+div.addpost div.top {
+  width: 100%;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+div.addpost div.top img {
+  width: 40px;
+  border-radius: 100%;
+}
+
+div.addpost div.top input {
+  height: 40px;
+  width: 90%;
+  border-radius: 50px;
+  border: 0px;
+  padding-left: 20px;
+  background-color: aqua;
+}
+
+div.addpost div.top input:hover {
+  background-color: rgba(0, 255, 255, 0.2);
+}
+
+div.addpost div.bottom {
+  padding: 10px 0px;
+}
+
+div.addpost div.bottom div.button {
+  width: 100px;
+  margin: auto;
+  padding: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: aqua;
+}
+
+div.addpost div.bottom div.button:hover {
+  background-color: rgba(0, 255, 255, 0.2);
+}
+
+div.addpost div.bottom div.button img {
+  width: 30px;
+}
+
+div.addpost div.bottom div.button p {
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+div.post {
+  width: 600px;
+  margin: 20px auto;
+  border-radius: 20px;
+  padding: 0px 20px;
+  border: 1px solid black;
+}
+
+div.post div.posthead {
+  width: 100%;
+  padding: 10px 0px;
+}
+
+div.post div.posthead div.picname {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+div.post div.posthead div.picname img {
+  width: 40px;
+  margin-right: 20px;
+  border-radius: 100%;
+}
+
+div.postcontent {
+  padding: 10px 0px;
+}
+
+div.buttonbox {
+  padding: 10px 0px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+div.buttonbox button {
+  width: 100px;
+  padding: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 0px;
+  font-size: 17px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+div.buttonbox button:hover {
+  background-color: rgba(0, 255, 255, 0.2);
+}
+
+@media screen and (max-width: 620px) {
+  div.addpost {
+    width: 90%;
+  }
+
+  div.post {
+    width: 90%;
+  }
+}
