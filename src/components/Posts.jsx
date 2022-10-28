@@ -1,14 +1,11 @@
 import React from 'react';
+import { useState } from 'react';
 import profile from './assets/profile.png';
 import '../index.css';
 import moment from 'moment';
 import { initializeApp } from "firebase/app";
-import {
-    getFirestore, collection,
-    addDoc, getDocs, doc,
-    onSnapshot, query, serverTimestamp,
-    orderBy, deleteDoc, updateDoc
-} from "firebase/firestore";
+import { getFirestore, doc, deleteDoc, updateDoc } from "firebase/firestore";
+
 const firebaseConfig = {
     apiKey: "AIzaSyCQxGQSZ9xxr90Zokmn7YVU5spvRM_E-ok",
     authDomain: "react-socialmediaapp-560cd.firebaseapp.com",
@@ -23,9 +20,23 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const Posts = (props) => {
+
+    const [editText, setEditText] = useState("");
+    const [editing, setEditing] = useState(false);
+
     const deletePost = async (postId) => {
         await deleteDoc(doc(db, "posts", postId));
     }
+
+    const updatePost = async (postId, editedText) => {
+        console.log(postId)
+        console.log(editedText);
+        setEditing(false);
+        await updateDoc(doc(db, "posts", postId), {
+            text: editedText
+        });
+    }
+
     return (
         <div className="post">
             <div className="posthead">
@@ -38,15 +49,16 @@ const Posts = (props) => {
                 </div>
             </div>
             <hr />
-            <div className="postcontent">{props.post.text}</div>
+            <div className={"postcontent"}>{(!editing) ? <p>{props.post.text}</p> : <input autoFocus type="text" value={editText} onChange={(e) => { setEditText(e.target.value) }} />}</div>
+
             <hr />
             <div className="buttonbox">
                 <button onClick={() => { deletePost(props.post.id) }}>Delete</button>
-                <button>Edit</button>
-                <button>Update</button>
+                <button className={`${(!editing) ? "" : "none"}`} onClick={() => { setEditing(true); setEditText(props.post.text) }}>Edit</button>
+                <button className={`${(editing) ? "" : "none"}`} onClick={() => { props.post.text = editText; updatePost(props.post.id, props.post.text) }}>Update</button>
             </div>
         </div>
     )
 }
 
-export default Posts
+export default Posts;

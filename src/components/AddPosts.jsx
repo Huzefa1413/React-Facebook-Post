@@ -76,6 +76,7 @@ const AddPosts = () => {
                     </div>
                 </div>
             </div>
+            <hr />
             {
                 posts.map((eachPost, i) => (
                     <Posts key={i} post={eachPost} />

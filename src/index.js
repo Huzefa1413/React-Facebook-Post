@@ -2,12 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import AddPosts from './components/AddPosts.jsx';
-import Posts from './components/Posts.jsx';
+import Navbar from './components/Navbar';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <div className='mainbody'>
+    <div>
+      <Navbar />
       <AddPosts />
     </div>
   </React.StrictMode>

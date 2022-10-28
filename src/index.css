@@ -4,11 +4,6 @@
   box-sizing: border-box;
 }
 
-.mainbody {
-
-  padding: 15px 0px;
-}
-
 div.addpost {
   width: 600px;
   margin: 20px auto;
@@ -94,10 +89,7 @@ div.post div.posthead div.picname img {
   width: 40px;
   margin-right: 20px;
   border-radius: 100%;
-}
-
-div.postcontent {
-  padding: 10px 0px;
+  cursor: pointer;
 }
 
 div.buttonbox {
@@ -119,6 +111,61 @@ div.buttonbox button {
 
 div.buttonbox button:hover {
   background-color: rgba(0, 255, 255, 0.2);
+}
+
+.postcontent p {
+  padding: 10px;
+}
+
+.none {
+  display: none;
+}
+
+.postcontent input {
+  border: 0px;
+  width: 100%;
+  padding: 10px;
+  height: 100%;
+  font-size: 16px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.navbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f0f2f5;
+  height: 80px;
+}
+
+.navbar>div {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.logoimage {
+  height: 100%;
+  padding: 15px;
+}
+
+.logoimage img {
+  height: 100%;
+  cursor: pointer;
+}
+
+.logoname {
+  font-size: 30px;
+  font-weight: 900;
+  font-family: cursive;
+  cursor: pointer;
+}
+
+.navbar>div>img {
+  height: 50%;
+  margin-right: 20px;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 620px) {
