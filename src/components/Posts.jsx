@@ -36,6 +36,7 @@ const Posts = (props) => {
             text: editedText
         });
     }
+    // console.log(props.post.img);
     return (
         <div className="post">
             <div className="posthead">
@@ -51,10 +52,13 @@ const Posts = (props) => {
             <div className={"postcontent"}>{(!editing) ? <p>{props.post.text}</p> : <input autoFocus type="text" value={editText} onChange={(e) => { setEditText(e.target.value) }} />}</div>
 
             <hr />
-            <div className="image">
-                <img src={props.post.img} alt="" />
-            </div>
-            <hr />
+            {(props.post.img) ?
+                <>
+                    <div className="image">
+                        <img src={props.post.img} alt="" />
+                    </div>
+                    <hr />
+                </> : ""}
             <div className="buttonbox">
                 <button onClick={() => { deletePost(props.post.id) }}>Delete</button>
                 <button className={`${(!editing) ? "" : "none"}`} onClick={() => { setEditing(true); setEditText(props.post.text) }}>Edit</button>

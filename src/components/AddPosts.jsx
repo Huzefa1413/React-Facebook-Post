@@ -30,8 +30,8 @@ const AddPosts = () => {
 
     const savePost = async (e) => {
         e.preventDefault();
-        if (postText === "") {
-            alert("Please Write Something to Post");
+        if (postText === "" || image === null) {
+            alert("Please Write Something to Post & Add Image to upload");
         }
         else {
             document.getElementById("postinput").value = "";
