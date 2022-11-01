@@ -27,53 +27,82 @@ const AddPosts = () => {
     const [postText, setPostText] = useState("");
     const [posts, setPosts] = useState([]);
     const [image, setImage] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const savePost = async (e) => {
+
         e.preventDefault();
-        if (postText === "" || image === null) {
-            alert("Please Write Something to Post & Add Image to upload");
+        if (postText === "" && image === null) {
+            alert("Please Write Something to Post OR Add Image to upload");
         }
         else {
-            document.getElementById("postinput").value = "";
-            document.getElementById("image").value = "";
-            setPostText("");
-            const cloudinaryData = new FormData();
-            cloudinaryData.append("file", image);
-            cloudinaryData.append("upload_preset", "myFacebookPictures")
-            cloudinaryData.append("cloud_name", "huzefa")
-            axios.post(`https://api.cloudinary.com/v1_1/huzefa/image/upload`, cloudinaryData, { headers: { 'Content-Type': 'multipart/form-data' } })
-                .then(async res => {
-                    try {
-                        const docRef = await addDoc(collection(db, "posts"), {
-                            text: postText,
-                            createdOn: serverTimestamp(),
-                            img: res?.data?.url
-                        });
-                    } catch (e) {
-                        console.error("Error adding document: ", e);
-                    }
-                })
-
+            setIsLoading(true)
+            if (image === null) {
+                document.getElementById("postinput").value = "";
+                try {
+                    const docRef = await addDoc(collection(db, "posts"), {
+                        text: postText,
+                        createdOn: serverTimestamp(),
+                    });
+                    setIsLoading(false)
+                } catch (e) {
+                    console.error("Error adding document: ", e);
+                }
+                setPostText("");
+            }
+            else {
+                document.getElementById("postinput").value = "";
+                document.getElementById("image").value = "";
+                const cloudinaryData = new FormData();
+                cloudinaryData.append("file", image);
+                cloudinaryData.append("upload_preset", "myFacebookPictures")
+                cloudinaryData.append("cloud_name", "huzefa")
+                axios.post(`https://api.cloudinary.com/v1_1/huzefa/image/upload`, cloudinaryData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then(async res => {
+                        try {
+                            const docRef = await addDoc(collection(db, "posts"), {
+                                text: postText,
+                                createdOn: serverTimestamp(),
+                                img: res?.data?.url
+                            });
+                            setIsLoading(false)
+                        } catch (e) {
+                            console.error("Error adding document: ", e);
+                        }
+                    })
+                setImage(null);
+                setPostText("");
+            }
         }
     }
+
     useEffect(() => {
+
         let unsubscribe = null;
         const getRealtimeData = async () => {
+
             const q = query(collection(db, "posts"), orderBy("createdOn", "desc"));
+
             unsubscribe = onSnapshot(q, (querySnapshot) => {
+
                 const posts = [];
 
                 querySnapshot.forEach((doc) => {
                     posts.push({ id: doc.id, ...doc.data() });
                 });
+
                 setPosts(posts);
             });
         }
+
         getRealtimeData();
+
         return () => {
             unsubscribe();
         }
+
     }, [])
+
     return (
         <>
             <div className="addpost">
@@ -88,10 +117,13 @@ const AddPosts = () => {
                         <img src={photos} alt="" />
                         <input type="file" id='image' onChange={(e) => { setImage(e.currentTarget.files[0]) }} />
                     </div>
-                    <div className='button' onClick={savePost}>
-                        <img src={post} alt="" />
-                        <p>Post</p>
-                    </div>
+                    {
+                        (!isLoading) ? (<div className="button" onClick={savePost}>
+                            <img src={post} alt="" />
+                            <p>Post</p>
+                        </div>) : (<div className='loader'></div>)
+                    }
+
                 </div>
             </div>
             <hr />

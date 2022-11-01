@@ -36,7 +36,7 @@ const Posts = (props) => {
             text: editedText
         });
     }
-    // console.log(props.post.img);
+
     return (
         <div className="post">
             <div className="posthead">
@@ -49,9 +49,16 @@ const Posts = (props) => {
                 </div>
             </div>
             <hr />
-            <div className={"postcontent"}>{(!editing) ? <p>{props.post.text}</p> : <input autoFocus type="text" value={editText} onChange={(e) => { setEditText(e.target.value) }} />}</div>
-
-            <hr />
+            {(props.post.text) ?
+                <>
+                    <div className={"postcontent"}>
+                        {(!editing) ?
+                            <p>{props.post.text}</p> :
+                            <input autoFocus type="text" value={editText} onChange={(e) => { setEditText(e.target.value) }} />}
+                    </div>
+                    <hr />
+                </> : ""
+            }
             {(props.post.img) ?
                 <>
                     <div className="image">
