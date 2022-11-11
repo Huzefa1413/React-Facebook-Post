@@ -6,21 +6,8 @@ import photos from './assets/photos.png'
 import post from './assets/post.png';
 import Posts from './Posts.jsx';
 import axios from 'axios';
-import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, orderBy } from "firebase/firestore";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyCQxGQSZ9xxr90Zokmn7YVU5spvRM_E-ok",
-    authDomain: "react-socialmediaapp-560cd.firebaseapp.com",
-    projectId: "react-socialmediaapp-560cd",
-    storageBucket: "react-socialmediaapp-560cd.appspot.com",
-    messagingSenderId: "465350864561",
-    appId: "1:465350864561:web:5e80dc764e0eb25a2d3c90"
-};
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-// Initialize Cloud Firestore and get a reference to the service
-const db = getFirestore(app);
+import { collection, addDoc, onSnapshot, query, serverTimestamp, orderBy } from "firebase/firestore";
+import { db } from '../firebaseConfig';
 
 const AddPosts = () => {
 
@@ -40,7 +27,7 @@ const AddPosts = () => {
             if (image === null) {
                 document.getElementById("postinput").value = "";
                 try {
-                    const docRef = await addDoc(collection(db, "posts"), {
+                    await addDoc(collection(db, "posts"), {
                         text: postText,
                         createdOn: serverTimestamp(),
                     });
@@ -51,28 +38,35 @@ const AddPosts = () => {
                 setPostText("");
             }
             else {
-                document.getElementById("postinput").value = "";
-                document.getElementById("image").value = "";
-                const cloudinaryData = new FormData();
-                cloudinaryData.append("file", image);
-                cloudinaryData.append("upload_preset", "myFacebookPictures")
-                cloudinaryData.append("cloud_name", "huzefa")
-                axios.post(`https://api.cloudinary.com/v1_1/huzefa/image/upload`, cloudinaryData, { headers: { 'Content-Type': 'multipart/form-data' } })
-                    .then(async res => {
-                        try {
-                            const docRef = await addDoc(collection(db, "posts"), {
-                                text: postText,
-                                createdOn: serverTimestamp(),
-                                img: res?.data?.url
-                            });
-                            setIsLoading(false)
-                        } catch (e) {
-                            console.error("Error adding document: ", e);
-                        }
-                    })
-                setImage(null);
-                setPostText("");
+                if (image.type.slice(0, 5) === 'image') {
+                    document.getElementById("postinput").value = "";
+                    document.getElementById("image").value = "";
+                    const cloudinaryData = new FormData();
+                    cloudinaryData.append("file", image);
+                    cloudinaryData.append("upload_preset", "myFacebookPictures")
+                    cloudinaryData.append("cloud_name", "huzefa")
+                    axios.post(`https://api.cloudinary.com/v1_1/huzefa/image/upload`, cloudinaryData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                        .then(async res => {
+                            try {
+                                await addDoc(collection(db, "posts"), {
+                                    text: postText,
+                                    createdOn: serverTimestamp(),
+                                    img: res?.data?.url
+                                });
+                                setIsLoading(false)
+                            } catch (e) {
+                                console.error("Error adding document: ", e);
+                            }
+                        })
+                    setImage(null);
+                    setPostText("");
+                }
+                else {
+                    alert('Only Images are allowed to upload! Invalid Image');
+                    setIsLoading(false);
+                }
             }
+
         }
     }
 

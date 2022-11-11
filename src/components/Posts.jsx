@@ -3,21 +3,8 @@ import { useState } from 'react';
 import profile from './assets/profile.png';
 import '../index.css';
 import moment from 'moment';
-import { initializeApp } from "firebase/app";
-import { getFirestore, doc, deleteDoc, updateDoc } from "firebase/firestore";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyCQxGQSZ9xxr90Zokmn7YVU5spvRM_E-ok",
-    authDomain: "react-socialmediaapp-560cd.firebaseapp.com",
-    projectId: "react-socialmediaapp-560cd",
-    storageBucket: "react-socialmediaapp-560cd.appspot.com",
-    messagingSenderId: "465350864561",
-    appId: "1:465350864561:web:5e80dc764e0eb25a2d3c90"
-};
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-// Initialize Cloud Firestore and get a reference to the service
-const db = getFirestore(app);
+import { doc, deleteDoc, updateDoc } from "firebase/firestore";
+import { db } from '../firebaseConfig';
 
 const Posts = (props) => {
 
